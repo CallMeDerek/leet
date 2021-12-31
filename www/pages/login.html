@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>设备参数配置管理｜登陆</title>
+
+    <link href="css/login.css" rel="stylesheet" type="text/css" />
+    <script>if (window.top !== window.self) {
+            window.top.location = window.location;
+        }</script>
+    <script src="js/login.js"></script>
+</head>
+
+<body>
+    <div class="content_div" style="">
+        <div class="content">
+            <div class="login-form" action="" method="post">
+                <div class="login-div">
+                    <div class="title">
+                        <img src="img/logo.png">
+                    </div>
+                    <form class="input-div" id="input-div">
+                        <div class="login-form-title">
+                            <div class="login-form-img">
+                                <img src="img/login/account.png" id="account_img">
+                            </div>
+                            <div class="login-form-input">
+                                <input type="text" autofocus="autofocus" id="loginUserId" class="from-control login-from-input" placeholder="用户名" name="userId"
+                                    autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="login-form-title">
+                            <img style="margin-top: 1px;margin-left: 1px; border-radius:5px; " src="img/login/password.png" id="password_img">
+                            <input type="password" autofocus="autofocus" id="loginPassword" class="from-control login-from-input" placeholder="密码" name="password"
+                                autocomplete="off">
+                        </div>
+                        <div class="form-actions login-btn" style="margin-top: 80px;">
+                            <button type="submit" id="login-btn" class="btn btn-block" data-loading-text="正在登录...">登录
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-2.0.3.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function () {
+            Login.init();
+        });
+        $("body").bind("keydown", function (event) {
+            if (event.keyCode == 116) {
+                event.preventDefault(); //阻止默认刷新
+                location = location;
+            }
+        })
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>设备信息</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <script src="js/login.js"></script>
+</head>
+
+<body>
+    <div style="margin:50px auto; width:550px;">
+        <form id="form" class="form-horizontal" role="form" style="width: 500px;height: 700px;">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">设备SN:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="sn" id="sn" readonly="false">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">设备版本:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="version" id="version" readonly="false">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">版本日期:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="versionDate" id="versionDate" readonly="false">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">设备运行状态:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="app_status" id="app_status" readonly="false">
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="js/jquery-2.0.3.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            queryParams();
+        });
+
+        function queryParams() {
+            $.ajax({
+                dataType: "json",
+                url: "/cgi-bin/getDeviceInfo.cgi",
+                type: "post",
+                success: function (data, result) {
+                    $('input[name=sn]').val(data.sn);
+                    $('input[name=version]').val(data.version);
+                    $('input[name=versionDate]').val(data.versionDate);
+                    $('input[name=app_status]').val(data.app_status);
+                },
+                error: function (data, result) {
+                    alert(data);
+                }
+            })
+        }
+
+        $("body").bind("keydown", function (event) {
+            if (event.keyCode == 116) {
+                event.preventDefault(); //阻止默认刷新
+                location = location;
+            }
+        })
+    </script>
+</body>
+
+</html>

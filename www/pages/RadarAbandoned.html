@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>设备信息</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
+</head>
+
+<body>
+    <!-- <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        CAN卡操作
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#" onclick="opt_can(1)">启动CAN卡</a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="opt_can(0)">关闭CAN卡</a>
+                        </li>
+                    </ul>
+                </div> -->
+    <!-- <button type="button" class="btn btn-default">标定</button> -->
+    <!-- <button type="button" class="btn btn-default" onclick="interval_send()">定时发送</button> -->
+    <!-- <button type="button" class="btn btn-default" onclick="interval_close()">取消定时</button> -->
+
+    <!--显示设置 模态框（Modal） -->
+    <div class="modal fade" id="displaySetting" tabindex="-1 " role="dialog " aria-labelledby="diaplayLabel " aria-hidden="true ">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header ">
+                    <button type="button " class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="diaplayLabel ">
+                        显示设置
+                    </h4>
+                </div>
+                <div class="modal-body ">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            目标信息
+                            <input type="checkbox" id="checkAll_item"> 全选
+                            <button type="button" class="btn btn-primary  btn-xs" style="float:right" onclick="set_item()">设置</button>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <p>
+                                        <input type="checkbox" name="item" value="id">
+                                        <label>ID</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" name="item" value="DistLong">
+                                        <label>DistLong</label>
+                                    </p>
+
+                                    <p>
+                                        <input type="checkbox" name="item" value="VrelLong">
+                                        <label>VrelLong</label>
+                                    </p>
+                                    <p class="object">
+                                        <input type="checkbox" name="item" value="Width">
+                                        <label>Width</label>
+                                    </p>
+                                    <p class="cluster">
+                                        <input type="checkbox" name="item" value="AmbigState">
+                                        <label>AmbigState</label>
+                                    </p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <p>
+                                        <input type="checkbox" name="item" value="DynProp">
+                                        <label>DynProp</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" name="item" value="DistLat">
+                                        <label>DistLat</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" name="item" value="VrelLat">
+                                        <label>VrelLat</label>
+                                    </p>
+                                    <p class="object">
+                                        <input type="checkbox" name="item" value="Length">
+                                        <label>Length</label>
+                                    </p>
+                                    <p class="cluster">
+                                        <input type="checkbox" name="item" value="InvalidState">
+                                        <label>InvalidState</label>
+                                    </p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <p>
+                                        <input type="checkbox" name="item" value="RCS">
+                                        <label>RCS</label>
+                                    </p>
+                                    <p class="object">
+                                        <input type="checkbox" name="item" value="MeasState">
+                                        <label>MeasState</label>
+                                    </p>
+                                    <p class="object">
+                                        <input type="checkbox" name="item" value="Class">
+                                        <label>Class</label>
+                                    </p>
+                                    <p class="object">
+                                        <input type="checkbox" name="item" value="ProbOfExist">
+                                        <label>ProbOfExist</label>
+                                    </p>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            目标属性
+                            <input type="checkbox" id="checkAll_prop"> 全选
+                            <button type="button" class="btn btn-primary  btn-xs" style="float:right" onclick="set_prop()">设置</button>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p>
+                                        <input type="checkbox" name="prop" value="0">
+                                        <label>Moving</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" name="prop" value="1">
+                                        <label>Stationary</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" name="prop" value="2">
+                                        <label>Oncoming</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" name="prop" value="3">
+                                        <label>Stationary Candidate</label>
+                                    </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p>
+                                        <input type="checkbox" name="prop" value="4">
+                                        <label>Unknown</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" name="prop" value="5">
+                                        <label>Crossing Stationary</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" name="prop" value="6">
+                                        <label>Crossing Moving</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" name="prop" value="7">
+                                        <label>Stopped</label>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            附属信息
+                            <input type="checkbox" id="checkAll_appendix"> 全选
+                            <button type="button" class="btn btn-primary  btn-xs" style="float:right" onclick="set_appendix()">设置</button>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <p>
+                                        <input type="checkbox" name="appendix" value="0">
+                                        <label>版本信息</label>
+                                    </p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <p>
+                                        <input type="checkbox" name="appendix" value="1">
+                                        <label>目标数量</label>
+                                    </p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <p>
+                                        <input type="checkbox" name="appendix" value="2">
+                                        <label>雷达状态</label>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <p class="text-info" style="margin: 0; text-align: right;">说明：选中的属性将在主页面中的目标信息中显示</p>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <script>
+        $(document).ready(function () {
+            // 显示设置 模态框
+            $('#displaySetting').on('show.bs.modal', function () {
+                init_display_setting();
+                if (OutputTypeCfg == 1) {//object
+                    $('.cluster>input').attr("disabled", true)
+                    $('.cluster>label').css("color", '#bdbdbd')
+                    $('.object>input').attr("disabled", false)
+                    $('.object>label').css("color", '#34495e')
+                } else if (OutputTypeCfg == 2) {//cluster
+                    $('.object>input').attr("disabled", true)
+                    $('.object>label').css("color", '#bdbdbd')
+                    $('.cluster>input').attr("disabled", false)
+                    $('.cluster>label').css("color", '#34495e')
+                }
+            })
+        })
+
+        /**
+     * 初始化 全选功能
+     */
+        function init_display_setting() {
+            var isCheckAll = function (all, list) {
+                let n = 0
+                for (let i = 0; i < list.length; i++) {
+                    list[i].checked && n++
+                }
+                all.checked = n == list.length
+            }
+            var allItem = document.getElementById("checkAll_item")
+            var items = document.getElementsByName("item")
+            $("#checkAll_item").click(function () {
+                if ($("#checkAll_item").prop('checked')) {
+                    $("input[name='item']:not(:disabled)").prop('checked', true)
+                } else {
+                    $("input[name='item']:not(:disabled)").prop('checked', false)
+                }
+            })
+            for (let i = 0; i < items.length; i++) {
+                items[i].onclick = function () {
+                    isCheckAll(allItem, items)
+                }
+            }
+            var allProp = document.getElementById("checkAll_prop")
+            var props = document.getElementsByName("prop")
+            $("#checkAll_prop").click(function () {
+                if ($("#checkAll_prop").prop('checked')) {
+                    $("input[name='prop']").prop('checked', true)
+                } else {
+                    $("input[name='prop']").prop('checked', false)
+                }
+            })
+            for (let i = 0; i < props.length; i++) {
+                props[i].onclick = function () {
+                    isCheckAll(allProp, props)
+                }
+            }
+            var allAppendix = document.getElementById("checkAll_appendix")
+            var appendixs = document.getElementsByName("appendix")
+            $("#checkAll_appendix").click(function () {
+                if ($("#checkAll_appendix").prop('checked')) {
+                    $("input[name='appendix']").prop('checked', true)
+                } else {
+                    $("input[name='appendix']").prop('checked', false)
+                }
+
+            })
+            for (let i = 0; i < appendixs.length; i++) {
+                appendixs[i].onclick = function () {
+                    isCheckAll(allAppendix, appendixs)
+                }
+            }
+        }
+
+        function send_FilterCfg(Index) {
+            var FilterCfg
+            switch (Index) {
+                case 0:
+                    FilterCfg = {
+                        Valid: 0, Index: Index,
+                        Active: +$("#NofObj_Active").is(":checked"), Min_NofObj: +$("#Min_NofObj").val(), Max_NofObj: +$("#Max_NofObj").val(),
+                    }
+                    break;
+                case 1:
+                    if (+$("#Min_Distance").val() > +$("#Max_Distance").val()) {
+                        warning_alert('警告！参数设置不合理'); $("#Min_Distance").focus(); return
+                    } else {
+                        FilterCfg = {
+                            Valid: 0, Index: Index,
+                            Active: +$("#Distance_Active").is(":checked"), Min_Distance: +$("#Min_Distance").val(), Max_Distance: +$("#Max_Distance").val(),
+                        }; break;
+                    }
+                case 2:
+                    if (+$("#Min_Azimuth").val() > +$("#Max_Azimuth").val()) {
+                        warning_alert('警告！参数设置不合理'); $("#Min_Azimuth").focus(); return
+                    } else {
+                        FilterCfg = {
+                            Valid: 0, Index: Index,
+                            Active: +$("#Azimuth_Active").is(":checked"), Min_Azimuth: +$("#Min_Azimuth").val(), Max_Azimuth: +$("#Max_Azimuth").val(),
+                        }; break;
+                    }
+                case 3:
+                    FilterCfg = {
+                        Valid: 0, Index: Index,
+                        Active: +$("#VrelOncome_Active").is(":checked"), Min_VrelOncome: +$("#Min_VrelOncome").val(), Max_VrelOncome: +$("#Max_VrelOncome").val(),
+                    }
+                    break;
+                case 4: FilterCfg = {
+                    Valid: 0, Index: Index,
+                    Active: +$("#VrelDepart_Active").is(":checked"), Min_VrelDepart: +$("#Min_VrelDepart").val(), Max_VrelDepart: +$("#Max_VrelDepart").val(),
+                }
+
+                    break;
+                case 5:
+                    FilterCfg = {
+                        Valid: 0, Index: Index,
+                        Active: +$("#RCS_Active").is(":checked"), Min_RCS: +$("#Min_RCS").val(), Max_RCS: +$("#Max_RCS").val(),
+                    }
+                    break;
+                case 6:
+                    FilterCfg = {
+                        Valid: 0, Index: Index,
+                        Active: +$("#Lifetime_Active").is(":checked"), Min_Lifetime: +$("#Min_Lifetime").val(), Max_Lifetime: +$("#Max_Lifetime").val(),
+                    }
+
+                    break;
+                case 7: FilterCfg = {
+                    Valid: 0, Index: Index,
+                    Active: +$("#Size_Active").is(":checked"), Min_Size: +$("#Min_Size").val(), Max_Size: +$("#Max_Size").val(),
+                }
+
+                    break;
+                case 8: FilterCfg = {
+                    Valid: 0, Index: Index,
+                    Active: +$("#ProbExists_Active").is(":checked"), Min_ProbExists: +$("#Min_ProbExists").val(), Max_ProbExists: +$("#Max_ProbExists").val(),
+                }
+                    break;
+                case 9: FilterCfg = {
+                    Valid: 0, Index: Index,
+                    Active: +$("#Y_Active").is(":checked"), Min_Y: +$("#Min_Y").val(), Max_Y: +$("#Max_Y").val(),
+                }
+                    break;
+                case 10: FilterCfg = {
+                    Valid: 0, Index: Index,
+                    Active: +$("#X_Active").is(":checked"), Min_X: +$("#Min_X").val(), Max_X: +$("#Max_X").val(),
+                }
+
+                    break;
+                case 11: FilterCfg = {
+                    Valid: 0, Index: Index,
+                    Active: +$("#VYRightLeft_Active").is(":checked"), Min_VYRightLeft: +$("#Min_VYRightLeft").val(), Max_VYRightLeft: +$("#Max_VYRightLeft").val(),
+                }
+                    break;
+                case 12: FilterCfg = {
+                    Valid: 0, Index: Index,
+                    Active: +$("#VXOncome_Active").is(":checked"), Min_VXOncome: +$("#Min_VXOncome").val(), Max_VXOncome: +$("#Max_VXOncome").val(),
+                }
+
+                    break;
+                case 13: FilterCfg = {
+                    Valid: 0, Index: Index,
+                    Active: +$("#VYLeftRight_Active").is(":checked"), Min_VYLeftRight: +$("#Min_VYLeftRight").val(), Max_VYLeftRight: +$("#Max_VYLeftRight").val(),
+                }
+                    break;
+                case 14:
+                    FilterCfg = {
+                        Valid: 0,
+                        Index: Index,
+                        Active: +$("#VXDepart_Active").is(":checked"), Min_VXDepart: +$("#Min_VXDepart").val(), Max_VXDepart: +$("#Max_VXDepart").val(),
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+            FilterCfg.Type = OutputTypeCfg
+            ws_send({ "id": "filter", "data": FilterCfg })
+
+        }
+
+        // function interval_send() {
+        //     timer = setInterval(function () {
+        //         ws_send({ "timer": n++ })
+        //     }, 1000)
+        // }
+        // function interval_close() {
+        //     if (!!timer) {
+        //         clearInterval(timer)
+        //         n = 0
+        //     }
+        // }
+
+        // 目标属性设置
+        function set_prop() {
+            prop_info = []
+            $("input[name='prop']:checked").each(function () {
+                prop_info.push(+$(this).val())
+            })
+            console.log(prop_info)
+        }
+
+        // 目标信息设置
+        function set_item() {
+            item_info = []
+            $("input[name='item']:checked").each(function () {
+                item_info.push($(this).val())
+            })
+        }
+
+        //绘制网格
+        function draw_grid() {
+            //计算
+            canvas_w = canvas.width; canvas_h = canvas.height; //画布宽画布高
+            w = Math.min((canvas_w - padding * 2) / xs, (canvas_h - padding * 2) / ys)//每单位对应画布尺寸
+            x_offset = (canvas_w - w * xs) / 2; y_offset = (canvas_h - w * ys) / 2
+
+            let x_num = Math.round(xs / x_step); let y_num = Math.round(ys / y_step);
+            let x_half = xs / 2
+            let y_offset_bottom = (canvas_h + w * ys) / 2
+
+            ctx.lineWidth = 0.5; ctx.setLineDash([3]); ctx.font = "bold 12px Arial "
+            ctx.beginPath()
+
+            ctx.strokeStyle = "#ed1941"
+            ctx.moveTo(canvas_w / 2, y_offset); ctx.lineTo(canvas_w / 2, canvas_h - y_offset); ctx.fillText(0, canvas_w / 2, y_offset_bottom + 20);
+            ctx.moveTo(x_offset, canvas_h - y_offset); ctx.lineTo(canvas_w - x_offset, canvas_h - y_offset); ctx.fillText(0, x_offset - 20, canvas_h - y_offset);
+            ctx.stroke();
+            ctx.strokeStyle = "lightgray "
+            for (let i = 0; i <= x_num; i++) {//绘制列
+                if (i * x_step != x_half) {
+                    let pos = i * w * x_step + x_offset
+                    ctx.moveTo(pos, y_offset); ctx.lineTo(pos, canvas_h - y_offset); ctx.fillText(i * x_step - x_half, pos, y_offset_bottom + 20)
+                }
+            }
+            for (let i = 1; i <= y_num; i++) {//绘制行
+                let pos = canvas_h - y_offset - i * w * y_step
+                ctx.moveTo(x_offset, pos); ctx.lineTo(canvas_w - x_offset, pos); ctx.fillText(i * y_step, x_offset - 20, pos)
+            }
+            ctx.stroke()
+            ctx.closePath()
+            saveDrawingSurface()
+        }
+        // 附属信息设置
+        // function set_appendix(tar) {
+        //     $("#box-menu").css({ 'display': 'inline-block' })
+        //     if ($(tar).prop("checked")) { $("div.box").eq($(tar).val()).css({ 'display': 'block' }); }
+        //     else { $("div.box").eq($(tar).val()).css({ 'display': 'none' }); }
+        // }
+        // function set_appendix() {
+        //     $("input[name='appendix']").each(function () {
+        //         if ($(this).prop("checked")) { $("div.box").eq($(this).val()).css({ 'display': 'block' }); }
+        //         else { $("div.box").eq($(this).val()).css({ 'display': 'none' }); }
+        //     })
+        // }
+        /**
+         * CAN操作
+         * @param {*} state 
+         */
+        function opt_can(state) {
+            console.log(state)
+        }
+
+        function windowToXY(x, y) {
+            // 返回元素的大小以及位置
+            var bbox = canvas.getBoundingClientRect();
+            let canvasX = x - bbox.left * (canvas.width / bbox.width);
+            let canvasY = y - bbox.top * (canvas.height / bbox.height);
+            let pX = y_max - (canvasX - y_offset) / w
+            let pY = x_max - (canvasY - x_offset) / w
+
+            return { x: pX.toFixed(2), y: pY.toFixed(2) }
+        }
+
+        function updateRubberbandRectangle(loc) {
+            rubberbandRect.width = Math.abs(loc.x - mousedown.x);
+            rubberbandRect.height = Math.abs(loc.y - mousedown.y);
+            // 从左往右拉，和从右往左拉的两种情况。主要是判断左边的位置
+            // 因为从左往右拉的时候，左边x坐标不变
+            // 从右往左拉的时候，左边线的x坐标需要跟着鼠标移动
+            if (loc.x > mousedown.x) rubberbandRect.left = mousedown.x;
+            else rubberbandRect.left = loc.x;
+            if (loc.y > mousedown.y) rubberbandRect.top = mousedown.y;
+            else rubberbandRect.top = loc.y;
+        }
+
+        function draw_grid() {
+            //计算  !x纵轴，y横轴（←正向）
+            // ctx.translate(translateX, translateY)
+
+            canvas_w = canvas.width; canvas_h = canvas.height; //画布宽画布高
+            xs = x_max - x_min; ys = y_max - y_min;//定义坐标轴范围
+            w = Math.min((canvas_w - padding * 2) / ys, (canvas_h - padding * 2) / xs)//每单位对应画布尺寸
+            x_offset = (canvas_h - w * xs) / 2; y_offset = (canvas_w - w * ys) / 2 //偏移量
+
+            let x_num = Math.ceil(xs / x_step);
+            let y_num = Math.ceil(ys / y_step);
+            let y_end = canvas_w - y_offset - y_num * w * y_step //;
+            let x_end = canvas_h - x_offset - x_num * w * x_step //
+
+            ctx.lineWidth = 0.5; ctx.setLineDash([3]); ctx.font = "12px Arial "; ctx.fillStyle = "#000000"
+            ctx.beginPath()
+            ctx.strokeStyle = "lightgray "
+            for (let i = 0; i <= x_num; i++) {//绘制指示行
+                let pos = canvas_h - x_offset - i * w * x_step //
+                ctx.moveTo(padding, pos);
+                ctx.lineTo(canvas_w - padding, pos);
+                ctx.fillText(x_min + i * x_step, canvas_w - y_offset, pos)
+            }
+            for (let i = 0; i <= y_num; i++) {//绘制指示列
+                let pos = canvas_w - y_offset - i * w * y_step //
+                ctx.moveTo(pos, padding);
+                ctx.lineTo(pos, canvas_h - padding);
+                ctx.fillText(y_min + i * y_step, pos - 10, canvas_h - x_offset + 15)
+            }
+            ctx.stroke()
+            ctx.beginPath()
+            ctx.strokeStyle = "#ed1941"; ctx.lineWidth = 1;
+            ctx.font = "12px Arial "; ctx.fillStyle = "#ed1941"
+            if (x_max > 0 && x_min < 0) {
+                let pos = canvas_h - x_offset + w * x_min //
+                ctx.moveTo(y_end, pos)
+                ctx.lineTo(canvas_w - y_offset, pos)
+                ctx.fillText(0, canvas_w - y_offset, pos);
+                ctx.fillText('y', y_offset - 7, pos);
+            } else {
+                ctx.moveTo(y_end, canvas_h - x_offset)
+                ctx.lineTo(canvas_w - y_offset, canvas_h - x_offset)
+                ctx.fillText(x_min, canvas_w - y_offset, canvas_h - x_offset);
+            }
+            if (y_max > 0 && y_min < 0) {
+                let pos = canvas_w - y_offset + y_min * w// 
+                ctx.moveTo(pos, x_end)
+                ctx.lineTo(pos, canvas_h - x_offset, )
+                ctx.fillText('0', pos - 10, canvas_h - x_offset + 15);
+                ctx.fillText('x', pos, x_offset - 5);
+            } else {
+                ctx.moveTo(canvas_w - y_offset, x_end)
+                ctx.lineTo(canvas_w - y_offset, canvas_h - x_offset, )
+                ctx.fillText(y_min, canvas_w - y_offset - 10, canvas_h - x_offset + 15);
+            }
+            ctx.stroke();
+            ctx.closePath()
+
+            // ctx.beginPath(); ctx.stroke();
+            // ctx.lineWidth = 5;
+            // ctx.moveTo(0, 0)
+            // ctx.lineTo(0, canvas.height)
+            // ctx.lineTo(canvas.width, canvas.height)
+            // ctx.lineTo(canvas.width, 0)
+            // ctx.lineTo(0, 0)
+            // ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.stroke();
+            ctx.closePath()
+
+            saveDrawingSurface()
+            console.log("draw_grid done")
+        }
+
+
+        function draw_grid() {
+            //计算  !x纵轴，y横轴（←正向）
+            canvas_w = canvas.width - padding * 2; canvas_h = canvas.height - padding * 2; //画布宽画布高
+            xs = x_max - x_min; ys = y_max - y_min;//定义坐标轴范围
+            w = Math.min((canvas_w) / ys, (canvas_h) / xs)//每单位对应画布尺寸
+            x_offset = (canvas_h - w * xs) / 2; y_offset = (canvas_w - w * ys) / 2 //偏移量
+
+            let x_num = Math.ceil(canvas_h / x_step / w);
+            let y_num = Math.ceil(canvas_w / y_step / w);
+
+            ctx.lineWidth = 0.5; ctx.setLineDash([3]); ctx.font = "12px Arial "; ctx.fillStyle = "#000000"
+            ctx.beginPath()
+            ctx.strokeStyle = "lightgray "
+            h_max = (x_max + x_min + x_num * x_step) / 2
+            let gap = 0
+            for (let i = 0; i <= x_num; i++) {//绘制指示行
+                let pos = padding + i * w * x_step //
+                ctx.moveTo(padding, pos);
+                ctx.lineTo(canvas_w + padding, pos);
+                ctx.fillText(h_max - i * x_step, padding - 20, pos)
+            }
+            w_max = (y_max + y_min + y_num * y_step) / 2
+
+            for (let i = 0; i <= y_num; i++) {//绘制指示列
+                let pos = padding + i * w * y_step //
+                ctx.moveTo(pos, padding);
+                ctx.lineTo(pos, canvas_h + padding);
+                if ((pos - gap) > 40) {
+                    ctx.fillText(w_max - i * y_step, pos, canvas_h + padding + 20)
+                    gap = pos
+                }
+            }
+            ctx.stroke()
+            ctx.beginPath()
+            ctx.strokeStyle = "#ed1941"; ctx.lineWidth = 1;
+            ctx.font = "12px Arial "; ctx.fillStyle = "#ed1941"
+
+            let px = padding + w * (h_max - x_origon)
+            ctx.moveTo(padding, px)
+            ctx.lineTo(canvas_w + padding, px)
+            ctx.fillText(x_origon, padding - 20, px);
+            ctx.fillText('y', canvas_w + padding + 10, px);
+
+            let py = padding + w * (w_max - y_origon)
+            ctx.moveTo(py, padding)
+            ctx.lineTo(py, canvas_h + padding)
+            ctx.fillText(y_origon, py, canvas_h + padding + 20);
+            ctx.fillText('x', py, padding - 10);
+
+            ctx.stroke();
+            ctx.closePath()
+
+            saveDrawingSurface()
+            console.log("draw_grid done")
+        }
+    </script>
+</body>
+
+</html>

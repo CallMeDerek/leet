@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>产品配置</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <script src="js/login.js"></script>
+</head>
+
+<body>
+    <div style="margin:50px auto; width:550px;">
+        <form id="form" class="form-horizontal" role="form" style="width: 500px;height: 700px;">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">重启App:</label>
+                <div class="col-sm-9">
+                    <button type="button" class="btn btn-primary" onclick="restart_app()">操作</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Mqtt IP地址: </label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="mqtt_ip" id="mqtt_ip" placeholder="请输入MQTT IP地址">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Mqtt 端口号: </label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="mqtt_port" id="mqtt_port" placeholder="请输入MQTT IP地址">
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" class="col-sm-3 btn btn-primary" style="margin-left: 150px;margin-right: 100px" onclick="queryParams()">参数查询
+                </button>
+                <button type="button" class="col-sm-3 btn btn-warning" onclick="setParams()">参数设置</button>
+            </div>
+        </form>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel">重启</h4>
+                    </div>
+                    <div class="modal-body">确认重启</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery-2.0.3.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            queryParams();
+        });
+
+        function queryParams() {
+            $.ajax({
+                dataType: "json",
+                url: "/cgi-bin/getSimulate.cgi",
+                type: "post",
+                success: function (data, result) {
+                    $('input[name=mqtt_ip]').val(data.mqtt_ip);
+                    $('input[name=mqtt_port]').val(data.mqtt_port);
+                },
+                error: function (data, result) {
+                    alert(data);
+                }
+            })
+        }
+
+        function setParams() {
+            var mqtt_ip = $("#form").find("input[name='mqtt_ip']").val();
+            var mqtt_port = $("#form").find("input[name='mqtt_port']").val();
+
+            var data = {
+                "mqtt_ip": mqtt_ip,
+                "mqtt_port": mqtt_port
+            };
+            $.ajax({
+                url: "/cgi-bin/setSimulate.cgi",
+                type: "post",
+                data: JSON.stringify(data),
+                success: function (data, result) {
+                    if (data == "success") {
+                        alert("设置参数成功");
+                    } else {
+                        alert("1设置参数成功");
+                    }
+                },
+                error: function (data, result) {
+                    alert(data);
+                }
+            });
+            $('#myModal').modal('show');
+        }
+        $("body").bind("keydown", function (event) {
+            if (event.keyCode == 116) {
+                event.preventDefault(); //阻止默认刷新
+                location = location;
+            }
+        })
+        function restart_app() {
+            $.ajax({
+                url: "/cgi-bin/restart_app.cgi",
+                type: "post",
+                success: function (data, result) {
+                    alert("重启成功")
+                },
+                error: function (data, result) {
+                    alert(data);
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+html {
+    height: 100%;
+    width: 100%；
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    /* min-width: 900px; */
+}
+
+
+.box-menu {
+    border: 1px solid #cdcdcd;
+    display: none;
+    position: absolute;
+    background-color: #f1f3f4;
+    padding: 0 5px;
+    margin: 0;
+    z-index: 1001;
+}
+
+.box-menu .item {
+    padding: 0 5px;
+    margin: 2px;
+    display: block;
+    height: 20px;
+    line-height: 20px;
+    background: transparent
+}
+
+.box-menu .item:hover {
+    font-weight: bold;
+    color: #409EFF
+}
+
+.divider {
+    border-bottom: 1px solid #cdcdcd
+}

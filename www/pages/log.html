@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>日志显示</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <script src="js/login.js"></script>
+</head>
+<body style="height:100%;" >
+<div id="log1" style="margin:10px auto; width:80%;height:80px; padding-top: 40px;">
+    <span>xxx日志:</span>
+    <button onclick="btn1()">查询</button>
+    <button onclick="clear1()">清除</button>
+</div>
+<div id="content1" style="margin:0px auto; width:80%;height:350px;border:1px solid blue; display: none;overflow:auto">
+</div>
+<div id="log2" style="margin:0px auto; width:80%;height:80px; padding-top: 10px;">
+    <span>xxx日志:</span>
+    <button onclick="btn2()">查询</button>
+    <button onclick="clear2()">清除</button>
+</div>
+<div id="content2" style="margin:0px auto; width:80%;height: 350px;;border:1px solid blue;display: none;overflow:auto">
+</div>
+ <script src="js/jquery-2.0.3.js"></script> 
+<script src="js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+    });
+    var t1,t2;
+
+    function btn1() {
+        $("#content1").css("display", "block");
+        t1=setInterval(GetBack1, 3000);
+    };
+
+    function GetBack1() {
+        $.ajax({
+            dataType: "json",
+            url: "/cgi-bin/logShow.cgi",
+            type: "post",
+            success: function (data, result) {
+                var p = "<span>" + data + "</span>";//添加元素的html代码
+                $("#content1").append(p);
+            },
+            error: function (data, result) {
+                clearInterval(t1);
+                alert("显示日志错误！")
+            }
+        });
+    };
+
+    function btn2() {
+        $("#content2").css("display","block");
+        t2=setInterval(GetBack2, 3000);
+    };
+    function GetBack2() {
+        $.ajax({
+            dataType: "json",
+            url: "/cgi-bin/logShow.cgi",
+            type: "post",
+            success: function (data, result) {
+                var p = "<span>" + data + "</span>";//添加元素的html代码
+                $("#content2").append(p);
+            },
+            error: function (data, result) {
+                clearInterval(t2);
+                alert("显示日志错误！")
+            }
+        });
+    };
+
+    function clear1() {
+        clearInterval(t1);
+        $("#content1").html("");
+        $("#content1").css("display","none");
+    };
+
+    function clear2() {
+        clearInterval(t2);
+        $("#content2").html("");
+        $("#content2").css("display","none");
+    }
+    $("body").bind("keydown", function (event) {
+        if (event.keyCode == 116) {
+            event.preventDefault(); //阻止默认刷新
+             location = location;
+        }
+    })
+
+</script>
+</body>
+</html>

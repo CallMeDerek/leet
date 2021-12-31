@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>设备信息</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <link href="./style/index.css" rel="stylesheet">
+
+</head>
+
+<body onresize="on_resize('canvas')">
+    <div style="height:40px;display: flex;justify-content: space-between;padding:0 20px">
+        <div style="height: 40px;line-height: 40px;" id="ws_state"></div>
+        <div>
+            <button type="button" class="btn btn-default" onclick="rotate_left()">
+                <img src="./img/rotate_left.png">
+            </button>
+            <button type="button" class="btn btn-default" onclick="rotate_right()">
+                <img src="./img/rotate_right.png">
+            </button>
+        </div>
+    </div>
+    <div class="main-container" id="main-container">
+        <canvas id="canvas_bg" style="position: absolute;z-index: 1"></canvas>
+        <canvas id="canvas_origon" style="position: absolute;z-index: 11"></canvas>
+        <canvas id="canvas_bg2" style="position: absolute;right:0;z-index: 1"></canvas>
+        <canvas id="canvas_handle" style="position: absolute;right:0;z-index: 11"></canvas>
+    </div>
+    <div id="box-menu" class="box-menu">
+        <div class="item" id="set_coord_div">坐标系设置</div>
+        <div class="divider"></div>
+        <div class="item" id="set_lane_div">车道设置</div>
+    </div>
+    <!--坐标系设置 模态框（Modal） -->
+    <div class="modal fade" id="CoordCfg" tabindex="-1 " role="dialog " aria-labelledby="CoordCfgLabel " aria-hidden="true ">
+        <div class="modal-dialog " style="width: fit-content">
+            <div class="modal-content ">
+                <div class="modal-header ">
+                    <button type="button " class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="CoordCfgLabel ">
+                        坐标系设置
+                    </h4>
+                </div>
+                <div class="modal-body ">
+                    <img src="./img/coord.png" width="500px" style="display: block;">
+                    <label>坐标系原点</label>
+                    <p> x
+                        <input type="number" id="x_origon" step="1" min="-500">y
+                        <input type="number" id="y_origon" step="1">
+                    </p>
+                    <label>纵向（X轴）</label>
+                    <p> 最小值
+                        <input type="number" id="x_min" step="1" min="-500" max=""> 最大值
+                        <input type="number" id="x_max" step="1"> 步长
+                        <input type="number" id="x_step" step="1" min="1" max="50">
+                    </p>
+                    <label>横向（Y轴）</label>
+                    <p> 最小值
+                        <input type="number" id="y_min" step="1"> 最大值
+                        <input type="number" id="y_max" step="1"> 步长
+                        <input type="number" id="y_step" step="1" min="1" max="50">
+                    </p>
+                    <label>显示配置</label>
+                    <p> Object 图像
+                        <input id="obj_color">
+                        <input type="color" name="obj_color"> 文字
+                        <input id="obj_text_color">
+                        <input type="color" name="obj_text_color"> </p>
+                    <p>Cluster图像
+                        <input id="clus_color">
+                        <input type="color" name="clus_color"> 文字
+                        <input id="clus_text_color">
+                        <input type="color" name="clus_text_color">
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" onclick="set_coord()">设置</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--车道设置 模态框（Modal） -->
+    <div class="modal fade" id="laneCfg" tabindex="-1 " role="dialog " aria-labelledby="laneCfgLabel " aria-hidden="true ">
+        <div class="modal-dialog " style="width: fit-content">
+            <div class="modal-content ">
+                <div class="modal-header ">
+                    <button type="button " class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="laneCfgLabel ">
+                        车道设置
+                    </h4>
+                </div>
+                <div class="modal-body ">
+                    <!-- <img src="./img/coord.png" width="500px" style="display: block;"> -->
+                    <label>校准量</label>
+                    <p>横坐标偏移
+                        <input type="number" id="base_y" step="0.1"> 等待线距离
+                        <input type="number" id="waiting" step="0.1">
+                    </p>
+                    <p>
+                        雷达与车道夹角
+                        <input type="number" id="intersection" step="0.1" min="0">中央隔离带宽度
+                        <input type="number" id="median" step="0.1" min="0">
+                    </p>
+                    <div class="divider"></div>
+                    <label>来向车道</label>
+                    <p>车道数量
+                        <input type="number" id="come_num" step="1" min="0"> 车道宽度
+                        <input type="number" id="come_width" step="0.1" min="2">非机动车道宽度
+                        <input type="number" id="come_bike" step="0.1" min="0">
+
+                    </p>
+                    <label>去向车道</label>
+                    <p>车道数量
+                        <input type="number" id="leave_num" step="1" min="0"> 车道宽度
+                        <input type="number" id="leave_width" step="0.1" min="2">非机动车道宽度
+                        <input type="number" id="leave_bike" step="0.1" min="0">
+                    </p>
+                    <div class="divider"></div>
+                    <label>分隔线</label>
+                    <p>
+                        <!-- <input type="number" id="leave_num" step="1" min="0"> 车道宽度
+                        <input type="number" id="leave_width" step="0.1" min="2">非机动车道宽度
+                        <input type="number" id="leave_bike" step="0.1" min="0"> -->
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" onclick="set_lane()">设置</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <script src="../js/jquery-2.0.3.js "></script>
+    <script src="../js/bootstrap.min.js "></script>
+    <script src="js/variable.js"></script>
+    <script src="js/cVariable.js"></script>
+    <script src="js/socket.js"></script>
+    <script src="js/canvas.js"></script>
+    <script src="js/cSocket.js"></script>
+    <script src="js/compare.js"></script>
+
+</body>
+
+
+<style>
+    .main-container {
+        height: calc( 100% - 45px);
+        width: 100%;
+        padding: 0 10px;
+        display: flex;
+        justify-content: space-between
+    }
+
+    canvas {
+        margin: 0 10px 20px 10px;
+        border: 1px solid #000000
+    }
+
+    .divider {
+        margin-bottom: 10px
+    }
+
+    input {
+        width: 90px;
+        margin-right: 10px
+    }
+
+    .btn {
+        padding: 3px 5px;
+        margin: 4px 0 auto 5px
+    }
+</style>

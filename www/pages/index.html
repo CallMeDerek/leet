@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>设备配置</title>
+
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+
+    <style>
+        .navbar-static-side {
+            background: #27292b;
+        }
+
+        .navbar-default .nav>li>a:focus {
+            background-image: url("img/li.png");
+        }
+
+        .menu_background {
+            background-image: url("img/li.png");
+        }
+    </style>
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden;margin: 0px;">
+    <div id="wrapper">
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side">
+            <div class="nav-close">
+                <i class="fa fa-times-circle"></i>
+            </div>
+
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu" style="list-style-type:none;padding-left: 10px;">
+                    <li class="nav-header" style="padding: 0px;">
+                        <div class="dropdown" style="height: 110px;">
+                            <img alt="image" src="img/logo.png" style="width: 200px;height: auto" />
+                        </div>
+                    </li>
+                    <li class="menu_background">
+                        <a class="J_menuItem " href="ProductSetting.html" style="text-decoration:none;color:#ffffff;font-size: 15px;">
+                            <img src="img/params.png" style="margin-right: 10px;vertical-align:middle;">
+                            <span class="nav-label">产品设置</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="ParameterSetting.html" style="text-decoration:none;color:#ffffff;font-size: 15px;">
+                            <img src="img/params.png" style="margin-right: 10px;vertical-align:middle;">
+                            <span class="nav-label">参数设置</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="NetSetting.html" style="text-decoration:none;color:#ffffff;font-size: 15px;">
+                            <img src="img/params.png" style="margin-right: 10px;vertical-align:middle;">
+                            <span class="nav-label">网络设置</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="DeviceInfo.html" style="text-decoration:none;color:#ffffff;font-size: 15px;">
+                            <img src="img/upgrade.png" style="margin-right: 10px;vertical-align:middle;">
+                            <span class="nav-label">设备信息</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="DeviceUpgrade.html" style="text-decoration:none;color:#ffffff;font-size: 15px;">
+                            <img src="img/upgrade.png" style="margin-right: 10px;vertical-align:middle;">
+                            <span class="nav-label">设备升级</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="log.html" style="text-decoration:none;color:#ffffff;font-size: 15px;">
+                            <img src="img/log.png" style="margin-right: 5px;vertical-align:middle;">
+                            <span class="nav-label">日志管理</span>
+                        </a>
+                    </li>
+
+                    <ul class="nav" id="side-menu" style="list-style-type:none;padding-left: 10px;">
+                        <li>
+                            <span style="color:#fff;font-size: 18px">雷达</span>
+                        </li>
+                        <li>
+                            <a class="J_menuItem" href="radar/Radar.html" style="text-decoration:none;color:#ffffff;font-size: 15px;">
+                                <!-- <img src="img/radar.png" style="width:17px;margin-right: 5px;vertical-align:middle;"> -->
+                                <span class="nav-label">源数据</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="J_menuItem" href="radar/Compare.html" style="text-decoration:none;color:#ffffff;font-size: 15px;">
+                                <!-- <img src="img/radar.png" style="width:17px;margin-right: 5px;vertical-align:middle;"> -->
+                                <span class="nav-label">算法对比</span>
+                            </a>
+                        </li>
+                    </ul>
+                </ul>
+            </div>
+        </nav>
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg" style="padding: 0px;">
+            <div class="row" style="height: 40px;background-color: #FFFFFF">
+                <div style="padding-top: 10px;">
+                    <img src="img/location.png" style="vertical-align:middle;padding-left:20px;padding-bottom: 2px;">
+                    <span style="padding-left:15px;display: inline-block;">位置 :</span>
+                    <span class="showMenu" style="padding-left:5px;display: inline-block;">产品设置</span>
+                </div>
+            </div>
+            <div class="row J_mainContent" id="content-main">
+                <!-- <iframe class="J_iframe" id="main_frame" name="iframe0" width="100%" height="100%" src="ProductSetting.html" frameborder="0" 
+                    data-id="ProductSetting.html" seamless></iframe>-->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-2.0.3.js"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="js/hplus.js"></script>
+    <script src="plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script type="text/javascript">
+
+        var frame;
+        $(document).ready(function () {
+            frame = createIframe(document.getElementById("content-main"), "ProductSetting.html")
+
+            $('.J_menuItem').on('click', menuItem);
+            function menuItem() {
+                $(this).parent().addClass("menu_background");
+                $(this).parent().siblings().removeClass("menu_background");
+                var dataUrl = $(this).attr('href'),
+                    // dataIndex = $(this).data('index'),
+                    menuName = $.trim($(this).text());
+                var flag = true;
+
+                $('.showMenu').html(menuName);
+                if (dataUrl == undefined || $.trim(dataUrl).length == 0) return false;
+
+                if (!!frame) {
+                    destroyIframe(frame);
+                }
+                frame = createIframe(document.getElementById("content-main"), dataUrl)
+                return false;
+            }
+
+            $("body").bind("keydown", function (event) {
+                if (event.keyCode == 116) {
+                    console.log("on key down")
+                    event.preventDefault(); //阻止默认刷新
+                    $("#main_frame").attr("src", window.frames["main_frame"].src);
+                }
+            })
+        });
+
+        /** 
+        * 动态创建iframe 
+        * @param dom 创建iframe的容器，即在dom中创建iframe。dom可以是div、span或者其他标签。 
+        * @param src iframe中打开的网页路径 
+        * @param onload iframe加载完后触发该事件，可以为空 
+        * @return 返回创建的iframe对象 
+        */
+        function createIframe(dom, src, onload) {
+            //在document中创建iframe 
+            var iframe = document.createElement("iframe");
+
+            //设置iframe的样式 
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.margin = '0';
+            iframe.style.padding = '0';
+            iframe.style.overflow = 'hidden';
+            iframe.style.border = 'none';
+
+            //绑定iframe的onload事件 
+            if (onload && Object.prototype.toString.call(onload) === '[object Function]') {
+                if (iframe.attachEvent) {
+                    iframe.attachEvent('onload', onload);
+                } else if (iframe.addEventListener) {
+                    iframe.addEventListener('load', onload);
+                } else {
+                    iframe.onload = onload;
+                }
+            }
+
+            iframe.src = src;
+            //把iframe加载到dom下面 
+            dom.appendChild(iframe);
+            return iframe;
+        }
+
+        /** 
+        * 销毁iframe，释放iframe所占用的内存。 
+        * @param iframe 需要销毁的iframe对象 
+        */
+        function destroyIframe(iframe) {
+            //把iframe指向空白页面，这样可以释放大部分内存。 
+            iframe.src = 'about:blank';
+            try {
+                iframe.contentWindow.document.write('');
+                iframe.contentWindow.document.clear();
+            } catch (e) { }
+            //把iframe从页面移除 
+            iframe.parentNode.removeChild(iframe);
+        }
+
+
+    </script>
+</body>
+
+</html>

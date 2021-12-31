@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>设备升级</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <style>
+        .progress {
+            width: 400px;
+            height: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 10px 0px;
+            overflow: hidden;
+        }
+
+        /* 初始状态设置进度条宽度为0px */
+
+        .progress>div {
+            width: 0px;
+            height: 100%;
+            background-color: yellowgreen;
+            transition: all .3s ease;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div style="margin:0px auto; width:550px;padding-top: 50px;">
+        <div style="height: 100px;">
+            <div class="row" style="padding-bottom: 50px;">
+                <div class="col-sm-9">
+                    <input type="file" name="fileName" id="fileName">
+                </div>
+                <div class="col-sm-3">
+                    <button type="button" class="btn btn-primary" onclick="uploadFile()">上传文件</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="progress">
+                        <div></div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <button type="button" class="btn btn-danger" onclick="clearUploadFile()">取消上传</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-2.0.3.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script>
+        var z;
+        var size;
+        function uploadFile() {
+            var $file = $("input[name='fileName']").val(); // 用户文件内容(文件)
+            if ($file == "") {
+                alert("choose file!!");
+                return false;
+            }
+            //判断文件大小
+            size = $("input[name='fileName']")[0].files[0].size;
+            if (size > 104857600) {
+                alert("上传文件不能大于100M!");
+                return false;
+            }
+            var formData = new FormData();
+            formData.append("file", $("#fileName")[0].files[0]);
+            $.ajax({
+                type: "post",
+                url: "/cgi-bin/send.cgi",
+                data: formData,
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data == "error") {
+                        alert("failed!");
+                    } else {
+                        alert("success!");
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                }
+            });
+            z = setInterval('progress()', 1000);
+        }
+        function clearUploadFile() {
+            $.ajax({
+                type: "post",
+                url: "/cgi-bin/pause.cgi",
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data == "error") {
+                        alert("failed!");
+                    } else {
+                        alert("success!");
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                }
+            });
+            clearInterval(z);
+        }
+        function progress() {
+            $.ajax({
+                type: "post",
+                url: "/cgi-bin/progress.cgi",
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data != "") {
+                        var progressRate = data + '%';
+                        $('.progress > div').css('width', progressRate); // 通过设置进度条的宽度达到效果
+                    } else {
+                        alert("success!");
+                    }
+                    if (progressRate == "100%") {
+                        clearInterval(z);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                }
+            });
+        }
+        $("body").bind("keydown", function (event) {
+            if (event.keyCode == 116) {
+                event.preventDefault(); //阻止默认刷新
+                location = location;
+            }
+        })
+
+    </script>
+</body>
+
+</html>

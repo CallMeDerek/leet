@@ -1,0 +1,169 @@
+html, body {
+    width: 1920px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.content_div {
+    width: 1920px;
+    height: 1080px;
+}
+.content {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    background: url("../img/login/bg.jpg");
+}
+.tlcs_logo_div {
+    position: relative;
+    width: 500px;
+    height: 130px;
+}
+
+.light_logo{
+    position: absolute;
+    margin-top: 420px;
+    margin-left: 250px;
+    width: 414px;
+    height: 135px;
+}
+.login-form {
+    position: relative;
+    width: 530px;
+    height: 500px;
+    float: right;
+    margin-right: 200px;
+    top: 300px;
+}
+
+.login-div {
+    width: 400px;
+    height: 500px;
+  /*  background: url(../img/login/loginbg.png) no-repeat;*/
+    background-size: 100% 100%;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+
+.title{
+    position: relative;
+    margin: 0 auto;
+    font-size: 32px;
+    width: 340px;
+    font-family: Microsoft Yahei;
+    color: #fff;
+    top: 20px;
+    margin-bottom: 24px;
+    text-align:center;
+    font-weight: 600;
+}
+
+.alerttips {
+    position: absolute;
+    font-size: 18px;
+    line-height: 0;
+    display: none;
+    top: -40px;
+    left: -70px;
+}
+
+.login-form-title {
+    height: 80px;
+}
+
+.input-div {
+    position: relative;
+    width: 340px;
+    margin: 0 auto;
+}
+
+.login-form-title input {
+    width: 300px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, .25);
+    border: none;
+    font-family: "Microsoft Yahei";
+    font-size: 18px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.5);
+    padding-left: 40px;
+}
+
+.login-form-title img {
+    position: relative;
+    top: 35px;
+    left: 15px;
+}
+
+.login-form-title input:focus{
+    width: 300px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, .25);
+    border: none;
+    font-family: "Microsoft Yahei";
+    font-size:18px;
+    border-radius: 20px;
+    outline: none;
+    padding-left: 40px;
+}
+
+:-ms-input-placeholder.form-control{
+    color:rgba(255,255,255,.6);
+}
+
+
+.remeberpwd {
+    background: url("../img/login/checkbox-normal-2.png") no-repeat left;
+    padding-left: 30px;
+    margin-top: 30px;
+    color: #fff;
+    font-size: 16px;
+    font-family: Microsoft Yahei;
+}
+.remeberpwd:hover{
+    cursor:pointer;
+}
+#isRemeberPwd{
+    display:none;
+}
+#isRemeberPwd:checked  + label{
+    display:inline-block;
+    background: url("../img/login/checkbox-select-2.png") no-repeat left;
+    padding-left:30px;
+    margin-top: 50px;
+    color:#fff;
+    font-size:16px;
+    font-family:Microsoft Yahei;
+}
+
+.login-form-title {
+    height: 70px;
+}
+.login-btn {
+    margin-top: 20px;
+}
+
+#login-btn {
+    box-sizing: border-box;
+    width: 340px;
+    height: 60px;
+    line-height: 60px;
+    background-color:#267bfe;
+    color: #fff;
+    font-family: Microsoft Yahei;
+    font-size: 24px;
+    border-radius: 30px;
+    border: 0px;
+}
+
+.btn {
+    border-radius: 2px;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    padding: 0;
+}
+

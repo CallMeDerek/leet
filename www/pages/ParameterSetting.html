@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>参数配置</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <script src="js/login.js"></script>
+</head>
+
+<body>
+    <div style="margin:50px auto; width:550px;">
+        <form id="form" class="form-horizontal" role="form" style="width: 500px;height: 700px;">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">设备SN:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="sn" id="sn" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">设备版本:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="version" id="version" readonly="false">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">版本日期:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="versionDate" id="versionDate" placeholder="请输入版本日期">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">IP地址: </label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="ip" id="ip" placeholder="请输入IP地址">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">网关地址: </label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="gateway" id="gateway" placeholder="请输入网关地址">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">子网掩码: </label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="subnetMask" id="subnetMask" placeholder="请输入子网掩码">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">DNS: </label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="dns" id="dns" placeholder="请输入DNS">
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" class="col-sm-3 btn btn-primary" style="margin-left: 150px;margin-right: 100px" onclick="queryParams()">参数查询
+                </button>
+                <button type="button" class="col-sm-3 btn btn-warning" onclick="setParams()">参数设置</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="js/jquery-2.0.3.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            queryParams();
+        });
+
+        function queryParams() {
+            $.ajax({
+                dataType: "json",
+                url: "/cgi-bin/getParams.cgi",
+                type: "post",
+                success: function (data, result) {
+                    $('input[name=sn]').val(data.sn);
+                    $('input[name=version]').val(data.version);
+                    $('input[name=versionDate]').val(data.versionDate);
+                    $('input[name=gateway]').val(data.gateway);
+                    $('input[name=subnetMask]').val(data.subnetMask);
+                    $('input[name=dns]').val(data.dns);
+                    $('input[name=ip]').val(data.ip);
+                },
+                error: function (data, result) {
+                    alert(data);
+                }
+            })
+        }
+
+        function setParams() {
+            var sn = $("#form").find("input[name='sn']").val();
+            var version = $("#form").find("input[name='version']").val();
+            var versionDate = $("#form").find("input[name='versionDate']").val();
+            var gateway = $("#form").find("input[name='gateway']").val();
+            var subnetMask = $("#form").find("input[name='subnetMask']").val();
+            var dns = $("#form").find("input[name='dns']").val();
+            var ip = $("#form").find("input[name='ip']").val();
+
+            var data = {
+                "sn": sn,
+                "version": version,
+                "versionDate": versionDate,
+                "gateway": gateway,
+                "subnetMask": subnetMask,
+                "dns": dns,
+                "ip": ip
+            };
+            $.ajax({
+                url: "/cgi-bin/setParams.cgi",
+                type: "post",
+                data: JSON.stringify(data),
+                success: function (data, result) {
+                    alert("设置参数成功");
+                },
+                error: function (data, result) {
+                    alert(data);
+                }
+            })
+        }
+
+        $("body").bind("keydown", function (event) {
+            if (event.keyCode == 116) {
+                event.preventDefault(); //阻止默认刷新
+                location = location;
+            }
+        })
+
+    </script>
+</body>
+
+</html>
